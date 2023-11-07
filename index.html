@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dog Grooming Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .panel {
+            width: 30%;
+            float: left;
+            padding: 10px;
+            border: 1px solid #ccc;
+            margin: 10px;
+        }
+
+        .dog-card {
+            border: 1px solid #000;
+            padding: 10px;
+            margin: 10px;
+        }
+
+        #add-dog-button {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h3>Dog Groomin</h3>
+    <div class="panels">
+        <div class="panel" id="waiting-panel">
+            <h2>Dogs Waiting to Be Groomed</h2>
+            <ul id="waiting_dogs" ></ul>
+        </div>
+        <div class="panel" id="grooming-panel">
+            <h2>Dogs Being Groomed</h2>
+            <ul id="grooming_dogs"></ul>
+        </div>
+        <div class="panel" id="home-panel">
+            <h2>Dogs Waiting to Go Home</h2>
+            <ul id="ready_to_leave"></ul>
+        </div>
+    </div>
+    <button id="add-dog-button">Add Dog</button>
+
+    <div id="add-dog-modal" style="display: none;">
+        <h2>Add a New Dog</h2>
+        <input type="text" id="dog-name" placeholder="Dog's Name">
+        <input type="text" id="dog-breed" placeholder="Dog's Breed">
+        <input type="text" id="dog-age" placeholder="Dog's Ageddds">
+        <button id="add-dog">Add Dog</button>
+    </div>
+</body>
+</html>
