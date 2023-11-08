@@ -2,14 +2,51 @@
 <html lang="en">
 <head>
     <title>Dog Grooming Page</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
+
+        .groomer {
+            font-family: 'Poppins', sans-serif;
+            font-size: 12px;
+            font-weight: 400;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            width: 100%;
+            color: #6750A4;
+        }
+
+        .panels {
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+        }
+
         .panel {
             width: 30%;
+            height: 75vh;
             float: left;
             padding: 10px;
             border: 1px solid #ccc;
             margin: 10px;
+            border-radius: 40px;
+            background-color: #F7F2FA;
+        }
+
+        .panel-header {
+            font-weight: 600;
+            text-align: center;
+            width: 100%;
         }
 
         .dog-card {
@@ -18,35 +55,46 @@
             margin: 10px;
         }
 
+        .button {
+            background-color: #6750A4;
+            color: white;
+            font-size: 16px;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: none;
+        }
+
         #add-dog-button {
             margin: 10px;
         }
     </style>
 </head>
 <body>
-    <h3>Dog Groomin</h3>
-    <div class="panels">
-        <div class="panel" id="waiting-panel">
-            <h2>Dogs Waiting to Be Groomed</h2>
-            <ul id="waiting_dogs" ></ul>
+    <div class="groomer">
+        <h3 class="title">Dog Grooming</h3>
+        <div class="panels">
+            <div class="panel" id="waiting-panel">
+                <h2 class="panel-header">Dogs Waiting to Be Groomed</h2>
+                <ul id="waiting_dogs" ></ul>
+            </div>
+            <div class="panel" id="grooming-panel">
+                <h2 class="panel-header">Dogs Being Groomed</h2>
+                <ul id="grooming_dogs"></ul>
+            </div>
+            <div class="panel" id="home-panel">
+                <h2 class="panel-header">Dogs Waiting to Go Home</h2>
+                <ul id="ready_to_leave"></ul>
+            </div>
         </div>
-        <div class="panel" id="grooming-panel">
-            <h2>Dogs Being Groomed</h2>
-            <ul id="grooming_dogs"></ul>
-        </div>
-        <div class="panel" id="home-panel">
-            <h2>Dogs Waiting to Go Home</h2>
-            <ul id="ready_to_leave"></ul>
-        </div>
-    </div>
-    <button id="add-dog-button">Add Dog</button>
+        <button class="button" id="add-dog-button">Add Dog</button>
 
-    <div id="add-dog-modal" style="display: none;">
-        <h2>Add a New Dog</h2>
-        <input type="text" id="dog-name" placeholder="Dog's Name">
-        <input type="text" id="dog-breed" placeholder="Dog's Breed">
-        <input type="text" id="dog-age" placeholder="Dog's Ageddds">
-        <button id="add-dog">Add Dog</button>
+        <div id="add-dog-modal" style="display: none;">
+            <h2>Add a New Dog</h2>
+            <input type="text" id="dog-name" placeholder="Dog's Name">
+            <input type="text" id="dog-breed" placeholder="Dog's Breed">
+            <input type="text" id="dog-age" placeholder="Dog's Age">
+            <button class="button" id="add-dog">Add Dog</button>
+        </div>
     </div>
 </body>
 </html>
