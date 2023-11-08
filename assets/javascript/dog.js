@@ -35,19 +35,21 @@ function addDogCardToPanel(panelId, dog) {
 }
 
 // Function to open the add dog modal
-$('#add-dog-button').click(function () {
-    $('#add-dog-modal').show();
-});
+$(() => {
+    $('#add-dog-button').on('click', () => {
+        console.log('clicked@');
+        $('#add-dog-modal').show();
 
-// Function to add a new dog
-$('#add-dog').click(function () {
-    const name = $('#dog-name').val();
-    const info = $('#dog-info').val();
-    if (name && info) {
-        const newDog = new Dog(name, info);
-        addDogCardToPanel('waiting-panel', newDog);
-        $('#add-dog-modal').hide();
-        $('#dog-name').val('');
-        $('#dog-info').val('');
-    }
-});
+        // $('#add-dog').click(function () {
+        //     const name = $('#dog-name').val();
+        //     const info = $('#dog-info').val();
+        //     if (name && info) {
+        //         const newDog = new Dog(name, info);
+        //         addDogCardToPanel('waiting-panel', newDog);
+        //         $('#add-dog-modal').hide();
+        //         $('#dog-name').val('');
+        //         $('#dog-info').val('');
+        //     }
+        // });
+    })
+})
