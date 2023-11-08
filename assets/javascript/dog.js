@@ -1,8 +1,10 @@
 // Dog class to represent dogs
 class Dog {
-    constructor(name, info) {
+    constructor(name, breed, age) {
+        this.id = Math.floor(Math.random() * 1000000);
         this.name = name;
-        this.info = info;
+        this.breed = breed;
+        this.age = age;
     }
 
     groom() {
@@ -14,42 +16,53 @@ class Dog {
         // Logic to send the dog home
         console.log(`${this.name} is going home.`);
     }
+
+    initButtons() {
+        $(this.el).find('.groom-button').on('click', () => this.groom());
+        $(this.el).find('.go-home-button').on('click', () => {
+            this.goHome();
+            $(this.el).remove();
+        });
+    }
 }
 
-// Function to add a dog card to the waiting panel
-function addDogCardToPanel(panelId, dog) {
+const addDogCardToPanel = (panelId, dog) => {
     const panel = $(`#${panelId}`);
-    const dogCard = $('<div>').addClass('dog-card');
-    dogCard.append(`<h3>${dog.name}</h3>`);
-    dogCard.append(`<p>${dog.info}</p>`);
-    const groomButton = $('<button>').text('Groom');
-    groomButton.click(() => dog.groom());
-    dogCard.append(groomButton);
-    const goHomeButton = $('<button>').text('Go Home');
-    goHomeButton.click(() => {
-        dog.goHome();
-        dogCard.remove();
-    });
-    dogCard.append(goHomeButton);
-    panel.append(dogCard);
+    const dogCardEl = `
+        <div class="dog-card" id="${dog.id}">
+            <h3>${dog.name}</h3>
+            <h3>${dog.breed}</h3>
+            <h3>${dog.age}</h3>
+            <button class="groom-button">Groom</button>
+            <button class="go-home-button">Go Home</button>
+        </div>
+    `;
+
+    // Add the card to the DOM
+    panel.append(dogCardEl);
+
+    // Make the class aware of its DOM element
+    dog.el = $(`.dog-card#${dog.id}`);
 }
 
-// Function to open the add dog modal
-$(() => {
-    $('#add-dog-button').on('click', () => {
-        console.log('clicked@');
-        $('#add-dog-modal').show();
+const clearInputs = () => {
+    $('#dog-name').val('');
+    $('#dog-breed').val('');
+    $('#dog-age').val('');
+}
 
-        // $('#add-dog').click(function () {
-        //     const name = $('#dog-name').val();
-        //     const info = $('#dog-info').val();
-        //     if (name && info) {
-        //         const newDog = new Dog(name, info);
-        //         addDogCardToPanel('waiting-panel', newDog);
-        //         $('#add-dog-modal').hide();
-        //         $('#dog-name').val('');
-        //         $('#dog-info').val('');
-        //     }
-        // });
-    })
+$(() => {
+    $('#add-dog').on('click', () => {
+        const name = $('#dog-name').val();
+        const breed = $('#dog-breed').val();
+        const age = $('#dog-age').val();
+        if (name && breed && age) {
+            const newDog = new Dog(name, breed, age);
+            console.log(newDog)
+
+            addDogCardToPanel('waiting-panel', newDog);
+            newDog.initButtons();
+            clearInputs();
+        }
+    });
 })
