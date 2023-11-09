@@ -30,11 +30,11 @@ const addDogCardToPanel = (panelId, dog) => {
     const panel = $(`#${panelId}`);
     const dogCardEl = `
         <div class="dog-card" id="${dog.id}">
-            <h3>${dog.name}</h3>
-            <h3>${dog.breed}</h3>
-            <h3>${dog.age}</h3>
-            <button class="groom-button">Groom</button>
-            <button class="go-home-button">Go Home</button>
+            <h3 class="dog-name">${dog.name}</h3>
+            <h2 class="breed">${dog.breed}</h2>
+            <p class="age">${dog.age + " years old"}</p>
+            <button class="button">Groom</button>
+            <button class="button">Send Home</button>
         </div>
     `;
 

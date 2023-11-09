@@ -1,6 +1,5 @@
 .groomer {
     font-family: 'Poppins', sans-serif;
-    font-size: 12px;
     font-weight: 400;
     display: flex;
     flex-direction: column;
@@ -10,7 +9,7 @@
 
 .title {
     text-align: center;
-    font-size: 36px;
+    font-size: 3rem;
     font-weight: 800;
     width: 100%;
     color: #6750A4;
@@ -24,13 +23,13 @@
 
 .panel {
     width: 30%;
-    height: 75vh;
+    height: 60vh;
     float: left;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin: 10px;
+    padding: 1.25rem;
+    margin: 0.5rem;
     border-radius: 40px;
     background-color: #F7F2FA;
+    overflow-y: scroll;
 }
 
 .panel-header {
@@ -39,21 +38,60 @@
     width: 100%;
 }
 
-.dog-card {
-    border: 1px solid #000;
-    padding: 10px;
-    margin: 10px;
-}
-
 .button {
     background-color: #6750A4;
     color: white;
-    font-size: 16px;
+    font-size: 1.25rem;
     padding: 0.5rem 1rem;
     border-radius: 20px;
     border: none;
 }
 
-#add-dog-button {
-    margin: 10px;
+.button:active,
+.button:hover,
+.button:focus {
+    background-color: #D0BCFF;
+}
+
+.text-input {
+    border: 2px solid #CAC4D0;
+    border-radius: 8px;
+    padding: 0.25rem 0.5rem;
+    color: black;
+}
+
+.text-input::placeholder {
+    color: #CAC4D0;
+}
+
+.text-input:hover,
+.text-input:active,
+.text-input:focus {
+    border: 2px solid #6750A4;
+}
+
+.dog-card {
+    background-color: #E6E0E9;
+    border-radius: 25px;
+    padding: 2rem;
+    margin: 0.5rem;
+}
+
+.dog-name {
+    font-size: 2rem;
+    color: #4F378B;
+    margin: 0;
+}
+
+.breed {
+    font-size: 1rem;
+    color: #21005D;
+    margin: 0.25rem 0 0 0;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.age {
+    color: #1D192B;
+    margin: 0 0 1.5rem 0;
 }
