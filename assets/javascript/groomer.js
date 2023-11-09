@@ -33,6 +33,11 @@ class Groomer {
     }
 
     groomDog(dogId, dogName) {
+        if (this.dogsBeingGroomed.length >= 3) {
+            alert('Sorry, we are at capacity. Please wait for a dog to be sent home before grooming another dog.');
+            return;
+        }
+
         console.log(`Starting to groom ${dogName}`);
 
         // find selectedDog and create new array with selectedDog filtered out
