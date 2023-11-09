@@ -22,7 +22,9 @@ class Groomer {
             $('#waiting-panel').append(newDog.card);
 
             // init dogs button
-            $(`.dog-card#${newDog.id}`).find('.button').on('click', () => this.groomDog(newDog.id, newDog.name));
+            const dogCard = $(`.dog-card#${newDog.id}`)
+            dogCard.fadeIn();
+            dogCard.find('.button').on('click', () => this.groomDog(newDog.id, newDog.name));
 
             // add dog to dirty dogs
             this.dirtyDogs.push(newDog);
@@ -58,9 +60,11 @@ class Groomer {
 
         // add dog card to grooming panel
         $('#grooming-panel').append(selectedDog.card)
+        const dogCard = $(`.dog-card#${selectedDog.id}`)
+        dogCard.fadeIn();
 
         // update dog card button to run finish grooming on click
-        $(`.dog-card#${selectedDog.id}`).find('.button').on('click', () => this.finishGrooming(selectedDog.id, selectedDog.name));
+        dogCard.find('.button').on('click', () => this.finishGrooming(selectedDog.id, selectedDog.name));
     }
 
     finishGrooming(dogId, dogName) {
@@ -90,9 +94,11 @@ class Groomer {
 
         // add dog card to home panel
         $('#home-panel').append(selectedDog.card)
+        const dogCard = $(`.dog-card#${selectedDog.id}`);
+        dogCard.fadeIn();
 
         // update dog card button to run finish grooming on click
-        $(`.dog-card#${selectedDog.id}`).find('.button').on('click', () => this.sendHome(selectedDog.id, selectedDog.name));
+        dogCard.find('.button').on('click', () => this.sendHome(selectedDog.id, selectedDog.name));
 
     }
 
@@ -115,7 +121,8 @@ class Groomer {
         this.dogsWaitingForParent = newWaitingForHome
 
         // remove dog from waiting panel and add to grooming panel
-        $('#home-panel').find(`#${dogId}`).remove();
+        const dogCard = $('#home-panel').find(`#${dogId}`);
+        dogCard.fadeOut(() => dogCard.remove());
     }
 }
 
