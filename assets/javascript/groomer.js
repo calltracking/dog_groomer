@@ -1,10 +1,13 @@
 // Groomer class to represent grooming store
 class Groomer {
     constructor() {
-        this.dirty_dogs = []
-        this.dogs_being_groomed = []
-        this.dogs_waiting_for_home = []
+        this.dirtyDogs = []
+        this.dogsBeingGroomed = []
+        this.dogsWaitingForParent = []
 
+        this.waitingPanel = $('#waiting-panel');
+        this.groomingPanel = $('#grooming-panel');
+        this.homePanel = $('#home-panel');
     }
 
     addDog() {
@@ -12,122 +15,108 @@ class Groomer {
         const breed = $('#dog-breed').val();
         const age = $('#dog-age').val();
         if (name && breed && age) {
-            const newDog = new Dog(name, breed, age, this.groomDog, this.finishGrooming, this.sendHome);
+            const newDog = new Dog(name, breed, age);
             console.log(newDog)
 
             // add dog to waiting panel and DOM
-            const panel = $('#waiting-panel').append(newDog.card);
-            newDog.el = $(`.dog-card#${newDog.id}`);
-            newDog.initButton();
+            $('#waiting-panel').append(newDog.card);
+
+            // init dogs button
+            $(`.dog-card#${newDog.id}`).find('.button').on('click', () => this.groomDog(newDog.id, newDog.name));
 
             // add dog to dirty dogs
-            this.dirty_dogs.append(newDog);
+            this.dirtyDogs.push(newDog);
             clearInputs();
         }
     }
 
-    groomDog(dogId) {
-        console.log("Starting to groom a dog");
+    groomDog(dogId, dogName) {
+        console.log(`Starting to groom ${dogName}`);
 
-        // remove dog from dirty dogs and add to dogs being groomed
+        // find selectedDog and create new array with selectedDog filtered out
         let selectedDog;
         const newDirtyDogs = [];
-        this.dirty_dogs.forEach((dog) => {
+        this.dirtyDogs.forEach((dog) => {
             if (dog.id === dogId) {
                 selectedDog = dog;
             } else {
-                newDirtyDogs.append(dog);
+                newDirtyDogs.push(dog);
             }
         });
-        this.dirty_dogs = newDirtyDogs;
-        this.dogs_being_groomed.push(selectedDog);
 
-        // remove dog from waiting panel and add to grooming panel
-        const waitingPanel = $('#waiting-panel');
-        const groomingPanel = $('#grooming-panel');
-        waitingPanel.remove(`#${dogId}`);
-        groomingPanel.append(selectedDog.card)
+        // reset dirtyDogs to new list of dogs with selected dog filtered out
+        this.dirtyDogs = newDirtyDogs;
 
-        // update dog
+        // add selected dog to list of dogs being groomed
+        this.dogsBeingGroomed.push(selectedDog);
+
+        // remove dog from waiting panel
+        $('#waiting-panel').find(`#${dogId}`).remove();
+
+        // Groom dog (update card contents)
         selectedDog.groom();
+
+        // add dog card to grooming panel
+        $('#grooming-panel').append(selectedDog.card)
+
+        // update dog card button to run finish grooming on click
+        $(`.dog-card#${selectedDog.id}`).find('.button').on('click', () => this.finishGrooming(selectedDog.id, selectedDog.name));
     }
 
-    finishGrooming(dogId) {
+    finishGrooming(dogId, dogName) {
         // Logic to send the dog home
-        console.log(`Finished grooming a dog. Now to wait for the dog's parent`);
+        console.log(`Finished grooming a ${dogName}. Now to wait for the ${dogName}'s parent`);
 
-        // remove dog from dogs being groomed and into waiting to go home
+        // find selectedDog and create new array with selectedDog filtered out
         let selectedDog;
         const newDogsBeingGroomed = [];
-        this.dogs_being_groomed.forEach((dog) => {
+        this.dogsBeingGroomed.forEach((dog) => {
             if (dog.id === dogId) {
                 selectedDog = dog;
             } else {
-                newDogsBeingGroomed.append(dog);
+                newDogsBeingGroomed.push(dog);
             }
         });
-        this.dogs_being_groomed = newDogsBeingGroomed;
-        this.dogs_waiting_for_home.push(selectedDog);
 
-        // remove dog from waiting panel and add to grooming panel
-        const groomingPanel = $('#grooming-panel');
-        const homePanel = $('#home-panel');
-        groomingPanel.remove(`#${dogId}`);
-        homePanel.append(selectedDog.card)
+        // reset dogsBeingGroomed to new list of dogs with selected dog filtered out
+        this.dogsBeingGroomed = newDogsBeingGroomed;
+        this.dogsWaitingForParent.push(selectedDog);
 
-        // update dog
-        selectedDog.finishGrooming();
+        // remove dog from grooming panel
+        $('#grooming-panel').find(`#${dogId}`).remove();
+
+        // Have dog wait for parent (update card contents)
+        selectedDog.waitForParent();
+
+        // add dog card to home panel
+        $('#home-panel').append(selectedDog.card)
+
+        // update dog card button to run finish grooming on click
+        $(`.dog-card#${selectedDog.id}`).find('.button').on('click', () => this.sendHome(selectedDog.id, selectedDog.name));
+
     }
 
-    sendHome(dogId) {
+    sendHome(dogId, dogName) {
         // Logic to send the dog home
-        console.log(`Parent arrived. Sending dog home`);
+        console.log(`Parent arrived. Sending ${dogName} home`);
 
-        // remove dog from dogs being groomed and into waiting to go home
+        // find selectedDog and create new array with selectedDog filtered out
         let selectedDog;
         const newWaitingForHome = [];
-        this.dogs_waiting_for_home.forEach((dog) => {
+        this.dogsWaitingForParent.forEach((dog) => {
             if (dog.id === dogId) {
                 selectedDog = dog;
             } else {
-                newWaitingForHome.append(dog);
+                newWaitingForHome.push(dog);
             }
         });
-        this.dogs_waiting_for_home = newWaitingForHome
+
+        // reset dogsWaitingForParent to new list of dogs with selected dog filtered out
+        this.dogsWaitingForParent = newWaitingForHome
 
         // remove dog from waiting panel and add to grooming panel
-        $('#home-panel').remove(`#${dogId}`);
-
-        // update dog
-        selectedDog.sendHome();
+        $('#home-panel').find(`#${dogId}`).remove();
     }
-
-    initButtons() {
-        $(this.el).find('.groom-button').on('click', () => this.groom());
-        $(this.el).find('.go-home-button').on('click', () => {
-            this.goHome();
-            $(this.el).remove();
-        });
-    }
-}
-
-const addDogCardToPanel = (panelId, dog) => {
-    const panel = $(`#${panelId}`);
-    const dogCardEl = `
-        <div class="dog-card" id="${dog.id}">
-            <h3 class="dog-name">${dog.name}</h3>
-            <h2 class="breed">${dog.breed}</h2>
-            <p class="age">${dog.age + " years old"}</p>
-            <button class="button">Groom</button>
-            <button class="button">Send Home</button>
-        </div>
-    `;
-
-    // Add the card to the DOM
-    panel.append(dogCardEl);
-
-    // Make the class aware of its DOM element
-    dog.el = $(`.dog-card#${dog.id}`);
 }
 
 const clearInputs = () => {
@@ -140,12 +129,14 @@ const groomer = new Groomer();
 
 $(() => {
     $('#add-dog').on('click', () => {
-        console.log("Trying to add new dog")
+        console.log("Adding a new dog")
         const name = $('#dog-name').val();
         const breed = $('#dog-breed').val();
         const age = $('#dog-age').val();
         if (name && breed && age) {
             groomer.addDog()
+        } else {
+            console.log("Opps... please fill in all text inputs to add dog");
         }
     });
 })
